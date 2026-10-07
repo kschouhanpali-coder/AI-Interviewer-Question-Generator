@@ -1,0 +1,25 @@
+[build]
+  publish = "public"
+  functions = "netlify/functions"
+
+# Redirect /api/* → Netlify Functions
+[[redirects]]
+  from = "/api/generate"
+  to   = "/.netlify/functions/generate"
+  status = 200
+
+[[redirects]]
+  from = "/api/presets"
+  to   = "/.netlify/functions/presets"
+  status = 200
+
+[[redirects]]
+  from = "/api/score"
+  to   = "/.netlify/functions/score"
+  status = 200
+
+# SPA fallback — serve index.html for any unmatched route
+[[redirects]]
+  from = "/*"
+  to   = "/index.html"
+  status = 200

@@ -1,0 +1,28 @@
+{
+  "name": "ai-interview-question-generator",
+  "version": "1.0.0",
+  "description": "AI-powered interview question and evaluation rubric generator based on Job Descriptions",
+  "main": "src/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "build": "echo 'Static site — no build step needed'"
+  },
+  "keywords": [
+    "ai",
+    "interview",
+    "hr",
+    "question-generator",
+    "placement-prep",
+    "rubric-generator",
+    "groq"
+  ],
+  "author": "College Project",
+  "license": "MIT",
+  "dependencies": {
+    "@google/genai": "^2.25.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  }
+}

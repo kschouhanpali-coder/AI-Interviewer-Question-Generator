@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InterviewForge — AI Interview Designer</title>
+  <meta name="description" content="AI-powered interview question generator with structured evaluation rubrics for campus placements and corporate hiring.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Ambient Background -->
+  <div class="bg-orb orb-1" aria-hidden="true"></div>
+  <div class="bg-orb orb-2" aria-hidden="true"></div>
+  <div class="bg-orb orb-3" aria-hidden="true"></div>
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <!-- ===== HEADER ===== -->
+  <header class="site-header">
+    <div class="header-wrap">
+      <div class="logo">
+        <div class="logo-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+          </svg>
+        </div>
+        <span class="logo-name">InterviewForge</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-layout">
+
+    <!-- ===== PRESET STRIP ===== -->
+    <div class="preset-strip">
+      <span class="preset-label">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Quick Presets
+      </span>
+      <div class="preset-pills" id="presets-container">
+        <button type="button" class="preset-pill active" data-preset="fullstack_fresher">
+          Full Stack Dev <span class="pill-level fresher">Fresher</span>
+        </button>
+        <button type="button" class="preset-pill" data-preset="data_analyst">
+          Data Analyst <span class="pill-level junior">Junior</span>
+        </button>
+        <button type="button" class="preset-pill" data-preset="cloud_devops">
+          DevOps &amp; Cloud <span class="pill-level mid">Mid</span>
+        </button>
+        <button type="button" class="preset-pill" data-preset="ai_ml_engineer">
+          AI / ML Engineer <span class="pill-level senior">Senior</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ===== WORKSPACE ===== -->
+    <div class="workspace">
+
+      <!-- Left: Config Panel -->
+      <aside class="config-panel">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">Role Configuration</h2>
+            <p class="panel-desc">Customise parameters for your interview suite</p>
+          </div>
+          <button type="button" class="ghost-btn" id="resetBtn">↺ Reset</button>
+        </div>
+
+        <form id="generator-form" class="config-form">
+
+          <!-- Job Title -->
+          <div class="form-field">
+            <label for="jobTitle" class="form-label">Job Title <span class="req">*</span></label>
+            <input type="text" id="jobTitle" name="jobTitle" class="form-input" placeholder="e.g. Senior Data Analyst" required>
+          </div>
+
+          <!-- Experience + Type -->
+          <div class="form-row">
+            <div class="form-field">
+              <label for="experienceLevel" class="form-label">Experience Level</label>
+              <div class="select-wrap">
+                <select id="experienceLevel" name="experienceLevel" class="form-select">
+                  <option value="Fresher" selected>Fresher (0 yrs)</option>
+                  <option value="Junior">Junior (1–2 yrs)</option>
+                  <option value="Mid">Mid (3–5 yrs)</option>
+                  <option value="Senior">Senior (5+ yrs)</option>
+                </select>
+                <svg class="select-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+            </div>
+            <div class="form-field">
+              <label for="interviewType" class="form-label">Interview Type</label>
+              <div class="select-wrap">
+                <select id="interviewType" name="interviewType" class="form-select">
+                  <option value="Mixed" selected>Mixed (Tech + HR)</option>
+                  <option value="Technical">Technical Only</option>
+                  <option value="HR">Behavioral &amp; HR</option>
+                </select>
+                <svg class="select-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Total Questions -->
+          <div class="form-field">
+            <div class="field-flex">
+              <label for="numQuestions" class="form-label">Total Questions</label>
+              <span class="value-badge" id="numQuestionsVal">10</span>
+            </div>
+            <input type="range" id="numQuestions" name="numQuestions" min="4" max="20" value="10" class="range-slider">
+            <div class="range-ticks">
+              <span>4</span><span>8</span><span>12</span><span>16</span><span>20</span>
+            </div>
+          </div>
+
+          <!-- Difficulty Split -->
+          <div class="form-field">
+            <div class="field-flex">
+              <label class="form-label">Difficulty Split</label>
+              <span class="value-mono" id="ratioSummary">40% / 50% / 10%</span>
+            </div>
+            <div class="diff-sliders">
+              <div class="diff-row">
+                <span class="diff-label easy-lbl">Easy</span>
+                <input type="range" id="diffEasy" min="0" max="100" value="40" class="range-slider range-easy">
+                <span class="diff-pct" id="easyVal">40%</span>
+              </div>
+              <div class="diff-row">
+                <span class="diff-label med-lbl">Med</span>
+                <input type="range" id="diffMed" min="0" max="100" value="50" class="range-slider range-med">
+                <span class="diff-pct" id="medVal">50%</span>
+              </div>
+              <div class="diff-row">
+                <span class="diff-label hard-lbl">Hard</span>
+                <input type="range" id="diffHard" min="0" max="100" value="10" class="range-slider range-hard">
+                <span class="diff-pct" id="hardVal">10%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Key Skills -->
+          <div class="form-field">
+            <label for="keySkills" class="form-label">Key Skills <span class="opt">(optional)</span></label>
+            <input type="text" id="keySkills" name="keySkills" class="form-input" placeholder="e.g. JavaScript, React, SQL, System Design">
+          </div>
+
+          <!-- Engine -->
+          <div class="form-field">
+            <label for="provider" class="form-label">Engine</label>
+            <div class="select-wrap">
+              <select id="provider" name="provider" class="form-select">
+                <option value="offline" selected>⚡ Smart Offline (Zero-Key)</option>
+                <option value="groq">🟠 Groq — Llama 3.3 70B</option>
+                <option value="gemini">✨ Google Gemini 2.5 Flash</option>
+                <option value="openai">🤖 OpenAI GPT-4o Mini</option>
+              </select>
+              <svg class="select-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+
+          <!-- API Key -->
+          <div class="form-field hidden" id="apiKeyGroup">
+            <label for="apiKey" class="form-label">API Key <span class="opt">(or set in .env)</span></label>
+            <div class="password-wrap">
+              <input type="password" id="apiKey" name="apiKey" class="form-input" placeholder="Paste your API key here">
+              <button type="button" class="eye-toggle" id="toggleApiKey" aria-label="Toggle visibility">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Job Description -->
+          <div class="form-field">
+            <div class="field-flex">
+              <label for="jobDescription" class="form-label">Job Description <span class="req">*</span></label>
+              <button type="button" class="link-btn" id="clearJdBtn">Clear</button>
+            </div>
+            <textarea id="jobDescription" name="jobDescription" class="form-textarea" rows="7" placeholder="Paste the job description or requirements here..." required></textarea>
+          </div>
+
+          <!-- Generate Button -->
+          <button type="submit" id="generateBtn" class="generate-btn">
+            <span class="btn-shimmer"></span>
+            <span class="btn-inner">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              <span id="btnLabel">Generate Interview Suite</span>
+              <span class="btn-spinner hidden" id="submitSpinner"></span>
+            </span>
+          </button>
+
+        </form>
+      </aside>
+
+      <!-- Right: Output Stage -->
+      <section class="output-stage">
+
+        <!-- ===== EMPTY STATE ===== -->
+        <div id="empty-state" class="empty-state">
+          <div class="empty-glow"></div>
+          <div class="empty-icon-wrap">
+            <div class="empty-icon-ring"></div>
+            <div class="empty-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+              </svg>
+            </div>
+          </div>
+          <h3 class="empty-title">Design Your Interview Suite</h3>
+          <p class="empty-desc">Select a preset above or paste a custom Job Description, then hit Generate to build a complete, role-specific interview pack — questions, rubric, and interviewer tips included.</p>
+          <div class="feature-grid">
+            <div class="feature-item">
+              <div class="fi-icon" style="--c:#6366f1">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+              </div>
+              <div>
+                <div class="fi-title">Instant Generation</div>
+                <div class="fi-desc">Questions ready in seconds</div>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="fi-icon" style="--c:#10b981">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              </div>
+              <div>
+                <div class="fi-title">JD-Grounded</div>
+                <div class="fi-desc">100% based on your job description</div>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="fi-icon" style="--c:#f59e0b">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              </div>
+              <div>
+                <div class="fi-title">4 Categories</div>
+                <div class="fi-desc">Tech, Scenario, HR, Role-Fit</div>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="fi-icon" style="--c:#8b5cf6">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              </div>
+              <div>
+                <div class="fi-title">Evaluation Rubric</div>
+                <div class="fi-desc">1–5 scale with detailed criteria</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== RESULTS ===== -->
+        <div id="output-container" class="output-wrap hidden">
+
+
+          <!-- Tab Bar -->
+          <div class="tab-bar" id="viewTabs">
+            <button type="button" class="tab-btn active" data-tab="tab-questions">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              Questions
+              <span class="tab-count" id="tab-q-count">—</span>
+            </button>
+            <button type="button" class="tab-btn" data-tab="tab-rubric">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Evaluation Rubric
+            </button>
+            <button type="button" class="tab-btn" data-tab="tab-overview">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+              Role &amp; Tips
+            </button>
+          </div>
+
+          <!-- ===== PANE: Questions ===== -->
+          <div class="tab-pane active" id="pane-questions">
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+              <div class="filter-group">
+                <label for="filterCategory" class="filter-label">Category</label>
+                <div class="select-wrap mini">
+                  <select id="filterCategory" class="filter-select">
+                    <option value="all">All Categories</option>
+                    <option value="Technical">Technical</option>
+                    <option value="Scenario">Scenario</option>
+                    <option value="Behavioral">Behavioral</option>
+                    <option value="Role-Fit">Role-Fit</option>
+                  </select>
+                  <svg class="select-arrow" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+              </div>
+              <div class="filter-group">
+                <label for="filterDiff" class="filter-label">Difficulty</label>
+                <div class="select-wrap mini">
+                  <select id="filterDiff" class="filter-select">
+                    <option value="all">All Levels</option>
+                    <option value="Easy">Easy</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Hard">Hard</option>
+                  </select>
+                  <svg class="select-arrow" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+              </div>
+              <div class="stat-chips" id="question-stats-badges"></div>
+            </div>
+
+            <!-- Questions List -->
+            <div class="questions-list" id="output-questions-list"></div>
+          </div>
+
+          <!-- ===== PANE: Rubric ===== -->
+          <div class="tab-pane" id="pane-rubric">
+            <div class="content-block">
+              <div class="block-head">
+                <div>
+                  <h3 class="block-title">Evaluation Rubric</h3>
+                  <p class="block-sub">Structured 1–5 grading criteria based on Technical Depth, Relevance, and Difficulty Handling</p>
+                </div>
+              </div>
+
+              <!-- Criteria Cards -->
+              <div class="rubric-cards" id="rubricCardsContainer"></div>
+
+              <!-- Full Matrix -->
+              <p class="section-label">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                Complete Comparison Matrix
+              </p>
+              <div class="table-wrap">
+                <table class="rubric-table" id="rubric-table">
+                  <thead>
+                    <tr>
+                      <th>Criterion</th>
+                      <th>Weight</th>
+                      <th class="lvl lvl-1">① Poor</th>
+                      <th class="lvl lvl-2">② Developing</th>
+                      <th class="lvl lvl-3">③ Satisfactory</th>
+                      <th class="lvl lvl-4">④ Advanced</th>
+                      <th class="lvl lvl-5">⑤ Excellent</th>
+                    </tr>
+                  </thead>
+                  <tbody id="rubric-tbody"></tbody>
+                </table>
+              </div>
+
+              <!-- Formula -->
+              <div class="formula-box">
+                <div class="formula-left">
+                  <span class="formula-tag">Weighted Formula</span>
+                  <code class="formula-text" id="output-formula">Final Score = (Technical Depth × 0.50) + (Relevance × 0.30) + (Difficulty × 0.20)</code>
+                </div>
+              </div>
+
+              <!-- Score Bands -->
+              <p class="section-label">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                Candidate Interpretation Bands
+              </p>
+              <div class="bands-grid" id="output-bands-grid"></div>
+            </div>
+          </div>
+
+          <!-- ===== PANE: Overview & Tips ===== -->
+          <div class="tab-pane" id="pane-overview">
+            <div class="content-block">
+
+              <!-- Role Summary -->
+              <div class="section-card role-card">
+                <div class="section-card-icon" style="--ic:#6366f1">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                </div>
+                <div>
+                  <p class="section-card-label">Role Summary &amp; Placement Scope</p>
+                  <p class="section-card-text" id="output-summary"></p>
+                </div>
+              </div>
+
+              <!-- Assumptions -->
+              <div class="assumptions-block hidden" id="output-assumptions-box">
+                <p class="section-label">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  Evaluation Baseline &amp; Assumptions
+                </p>
+                <ul class="assumption-list" id="output-assumptions-list"></ul>
+              </div>
+
+              <!-- Tips -->
+              <div style="margin-top:2rem;">
+                <p class="block-title" style="margin-bottom:0.3rem;">Interviewer Best Practices</p>
+                <p class="block-sub" style="margin-bottom:1.25rem;">Expert placement officer guidelines for fair, structured, and bias-free interviews.</p>
+                <div class="tips-grid" id="output-tips-list"></div>
+              </div>
+
+            </div>
+          </div>
+
+        </div><!-- /output-wrap -->
+      </section>
+    </div><!-- /workspace -->
+  </main>
+
+  <!-- Toast -->
+  <div id="toast" class="toast hidden"></div>
+
+  <!-- Progress Overlay (shown during generation) -->
+  <div id="gen-overlay" class="gen-overlay hidden">
+    <div class="gen-modal">
+      <div class="gen-spinner"></div>
+      <p class="gen-title">Designing Your Interview Suite</p>
+      <p class="gen-sub" id="gen-status-msg">Analysing job description…</p>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
