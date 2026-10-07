@@ -1,159 +1,172 @@
-# AI Interview Question & Rubric Generator (Node.js Module)
+<div align="center">
 
-An AI-driven Placement Officer and HR Interview Designer engine built for campus placements and corporate hiring. It takes any Job Description (JD) and generates strictly role-specific interview questions alongside a comprehensive 1–5 scale evaluation rubric.
+# 🎯 InterviewForge 🎯
 
----
+### Design. Evaluate. Hire Better.
 
-## 🌟 Key Features
+![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)
+![Version](https://img.shields.io/badge/Version-1.0.0-green?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Live-brightgreen?style=for-the-badge)
+![Type](https://img.shields.io/badge/Type-AI%20Interview%20Designer-7C3AED?style=for-the-badge)
 
-- **Strict Master Prompt Adherence**:
-  - **Task 1: Question Generation**: Categorized into *Technical*, *Scenario / Problem-Solving*, *Behavioral / HR*, and *Role-Fit*. Includes question, JD-linked skill, difficulty (Easy/Medium/Hard), and 2–4 expected strong answer bullet points.
-  - **Task 2: Evaluation Rubric**: Scored on *Technical Depth*, *Relevance*, and *Difficulty Handling* across a 1–5 scale, with weightages, scoring formulas, and hiring interpretation bands (*Strong Hire*, *Hire*, *Borderline*, *Reject*).
-- **Flexible AI Providers**:
-  - **Google Gemini** (`gemini-2.5-flash` via `@google/genai`)
-  - **OpenAI / Compatible** (e.g., Groq, Ollama, DeepSeek)
-  - **Smart Offline Engine**: Intelligent keyword and skill extractor for zero-API-key demonstrations, college viva, and offline tests.
-- **Multiple Ways to Run**:
-  1. **Node.js Module**: Import into your Express, Nest.js, or backend services.
-  2. **Interactive CLI**: Run directly in your terminal (`npm run cli`).
-  3. **Modern Web UI**: Complete glassmorphism web interface (`npm start`).
+An AI-powered interview designer for campus placements and corporate hiring. Paste a job description, pick the experience level and difficulty mix, and get role-specific questions, a 1–5 evaluation rubric, and interviewer tips, all in seconds.
+
+*From job description to interview pack, in a few clicks.*
+
+</div>
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Live Demo
 
-### 1. Install Dependencies
+<div align="center">
+
+### **[▶️ LAUNCH INTERVIEWFORGE - Live Demo](https://ai-interviewer-question.netlify.app)**
+
+*Pick a preset, hit Generate, and get a complete interview suite right in your browser!*
+
+</div>
+
+---
+
+## ✨ Features
+
+- ⚡ **Instant Generation** - A complete interview suite in seconds
+- 📄 **JD-Grounded Questions** - Questions based on your job description
+- 🗂️ **4 Categories** - Technical, Scenario, Behavioral, and Role-Fit
+- 🎛️ **Role Configuration** - Job title, experience level, interview type, question count, and key skills
+- 📊 **Difficulty Split** - Control the Easy / Medium / Hard mix (default 40% / 50% / 10%)
+- 🧪 **Quick Presets** - Full Stack Dev, Data Analyst, DevOps & Cloud, AI/ML Engineer
+- 🔍 **Filters** - Filter questions by category and difficulty
+- 📝 **Evaluation Rubric** - 1–5 grading scale with detailed criteria and a comparison matrix
+- 🧮 **Weighted Formula** - Consistent, fair scoring across candidates
+- 🏷️ **Interpretation Bands** - Turn final scores into clear hiring decisions
+- 👔 **Role Summary & Placement Scope** - A quick overview of the role
+- ✅ **Interviewer Best Practices** - Guidelines for structured, bias-free interviews
+- 🔌 **Multiple Engines** - Offline mode with no key, or Groq, Gemini, and OpenAI
+
+---
+
+## 🏁 Quick Start
+
+### Use Online
+No installation needed! [Launch the live demo](https://ai-interviewer-question.netlify.app)
+
+### Run Locally
+
+**Prerequisites:** A modern web browser (Node.js is optional, for a local server)
+
+1. Clone the repository:
 ```bash
-npm install
+git clone https://github.com/kschouhanpali-coder/ai-interviewer-question.git
+cd ai-interviewer-question
 ```
 
-### 2. Configure Environment (Optional for Cloud AI)
-Copy `.env.example` to `.env`:
+2. (Optional) Add your API key for AI engines:
 ```bash
 cp .env.example .env
 ```
-Add your Google Gemini API key or OpenAI API key:
 ```env
-GEMINI_API_KEY=your_gemini_api_key_here
+GROQ_API_KEY=your_groq_key
+GEMINI_API_KEY=your_gemini_key
+OPENAI_API_KEY=your_openai_key
 ```
-*(Note: If no API key is provided, the module will automatically run using the built-in Smart Offline Engine!)*
+
+3. Start the app:
+```bash
+npx serve .
+```
+Or simply open `index.html` in your browser.
+
+4. Open `http://localhost:3000` and generate your first interview suite
+
+> The **Smart Offline** engine works with no API key. Never commit your `.env` file.
 
 ---
 
-## 💻 1. Programmatic Node.js Module Usage
+## 🎯 How to Use
 
-Import and use `generateInterviewQuestions`:
+1. **Choose a preset** or enter your own **Job Title**
+2. **Configure** the experience level, interview type, number of questions, and difficulty split
+3. **Paste the Job Description** and add optional key skills
+4. **Select an engine** - Smart Offline, Groq, Gemini, or OpenAI
+5. **Generate** - click **Generate Interview Suite**
+6. **Review** - browse questions, filter by category or difficulty, and open the rubric and tips
 
-```javascript
-const { generateInterviewQuestions, calculateScore } = require('./src/index');
+---
 
-async function run() {
-  const result = await generateInterviewQuestions({
-    jobTitle: 'Data Analyst',
-    experienceLevel: 'Fresher',          // 'Fresher' | 'Junior' | 'Mid' | 'Senior'
-    interviewType: 'Mixed',              // 'Technical' | 'HR' | 'Mixed'
-    numQuestions: 10,
-    difficultyMix: { easy: 30, medium: 50, hard: 20 },
-    keySkills: 'SQL, Python, Excel, Power BI',
-    jobDescription: `
-      Looking for a campus Data Analyst. Must know SQL joins and aggregations,
-      Python for data cleansing (Pandas), and building reports in Power BI or Excel.
-    `,
-    provider: 'auto' // 'auto' | 'gemini' | 'openai' | 'offline'
-  });
+## 🗂️ App Workspace
 
-  // Access structured results
-  console.log('Role Summary:', result.roleSummary);
-  console.log('Questions:', result.questions);
-  console.log('Rubric:', result.rubric);
+| Tab | Description |
+|------|-------------|
+| **❓ Questions** | Generated questions with category and difficulty filters |
+| **📝 Evaluation Rubric** | 1–5 criteria matrix, weighted formula, and interpretation bands |
+| **👔 Role & Tips** | Role summary, placement scope, baseline assumptions, and interviewer best practices |
 
-  // Convert to Markdown or CSV
-  const markdownReport = result.toMarkdown();
-  const csvReport = result.toCsv();
+---
 
-  // Simulate candidate rubric evaluation
-  const evaluation = result.calculateScore({
-    technicalDepth: 4,      // 1 to 5
-    relevance: 5,           // 1 to 5
-    difficultyHandling: 3   // 1 to 5
-  });
+## ⚙️ Configuration Options
 
-  console.log(`Candidate Score: ${evaluation.finalScore}/5.0 -> ${evaluation.verdict}`);
-}
+| Option | Choices |
+|------|-------------|
+| **Job Title** | Free text (required) |
+| **Experience Level** | Fresher (0 yrs), Junior (1–2 yrs), Mid (3–5 yrs), Senior (5+ yrs) |
+| **Interview Type** | Mixed (Tech + HR), Technical Only, Behavioral & HR |
+| **Total Questions** | 4 to 24 (default 10) |
+| **Difficulty Split** | Easy / Medium / Hard (default 40% / 50% / 10%) |
+| **Engine** | Smart Offline, Groq Llama 3.3 70B, Gemini 2.5 Flash, GPT-4o Mini |
 
-run();
+---
+
+## 📊 Evaluation Rubric
+
+Every answer is scored from **1 (Poor)** to **5 (Excellent)**:
+
+| Criterion | Weight |
+|------|-------------|
+| **Technical Depth** | 50% |
+| **Relevance** | 30% |
+| **Difficulty Handling** | 20% |
+
+```
+Final Score = (Technical Depth × 0.50) + (Relevance × 0.30) + (Difficulty × 0.20)
 ```
 
 ---
 
-## 🖥️ 2. Terminal CLI Runner
+## 💻 Technologies Used
 
-Run the interactive terminal wizard:
-```bash
-npm run cli
-```
-Or run directly with presets:
-```bash
-node bin/cli.js --preset fullstack_fresher
-node bin/cli.js --preset data_analyst
-node bin/cli.js --preset cloud_devops
-node bin/cli.js --preset ai_ml_engineer
-```
-
----
-
-## 🌐 3. Interactive Web Application
-
-Start the local server:
-```bash
-npm start
-```
-Open **[http://localhost:3000](http://localhost:3000)** in your browser.
-
-### Web UI Features:
-- **Instant Presets**: 1-click loading for Fresher Full Stack, Junior Data Analyst, Mid DevOps, and Senior AI/ML.
-- **Difficulty Mix Sliders**: Real-time adjustment of Easy / Medium / Hard distributions.
-- **Accordion Question Cards**: Badges for difficulty, categories, and expandable answer criteria.
-- **Live Rubric Simulator**: Interactive candidate scoring sliders calculating weighted scores and verdicts in real-time.
-- **Export Toolbar**: Copy Markdown, download `.md` file, download `.csv` spreadsheet, or print/save as PDF.
-
----
-
-## 🧪 Testing
-
-Run automated tests to verify the Node module:
-```bash
-npm test
-```
-
-Run the example script:
-```bash
-npm run example
-```
+- **Frontend:** HTML5, CSS3, JavaScript
+- **AI Engines:** Groq (Llama 3.3 70B), Google Gemini 2.5 Flash, OpenAI GPT-4o Mini
+- **Offline Mode:** Built-in Smart Offline generator (no API key)
+- **Config:** `.env` for API keys
+- **Deployment:** Netlify
 
 ---
 
 ## 📁 Project Structure
 
 ```
-├── src/
-│   ├── index.js             # Main Node.js module entry point
-│   ├── promptBuilder.js     # Master prompt builder following exact specification
-│   ├── presets.js           # Curated job descriptions for testing
-│   ├── providers/
-│   │   ├── gemini.js        # Google Gemini integration (@google/genai)
-│   │   ├── openai.js        # OpenAI / LLM-compatible provider
-│   │   └── offline.js       # Standalone rule-based parser & generator
-│   └── utils/
-│       └── formatter.js     # Markdown, CSV, and rubric score calculator
-├── bin/
-│   └── cli.js               # Terminal command-line executable
-├── public/                  # Responsive web UI
-│   ├── index.html
-│   ├── styles.css
-│   └── app.js
-├── example.js               # Programmatic code example
-├── test.js                  # Automated test suite
-├── server.js                # Express Web Server
-└── package.json
+ai-interviewer-question/
+├── index.html        # Main application file
+├── assets/           # CSS and JS (if separate files)
+├── .env.example      # API key template
+├── netlify.toml      # Netlify config
+└── README.md
 ```
+
+---
+
+## 📝 License
+
+MIT License - Free to use and modify
+
+---
+
+<div align="center">
+
+**[Live Demo](https://ai-interviewer-question.netlify.app) | [GitHub](https://github.com/kschouhanpali-coder/ai-interviewer-question) | [Report Issues](https://github.com/kschouhanpali-coder/ai-interviewer-question/issues)**
+
+*From job description to interview pack, in a few clicks.* 🎯
+
+</div>
